@@ -296,6 +296,12 @@ On5.Text = "✅"
 On5.TextScaled = true
 On5.Visible = false
 
+On5.MouseButton1Click:connect(function()
+    On5.Visible = false
+    Off5.Visible = true
+    getgenv().auto5 = false
+end)
+
 Off5.Parent = Frame
 Off5.BackgroundColor3 = Color3.new(0,0,0)
 Off5.BackgroundTransparency = 0
@@ -310,6 +316,10 @@ Off5.Text = ""
 Off5.TextScaled = true
 Off5.TextSize = 8
 Off5.TextWrapped = true
+Off5.MouseButton1Click:connect(function()
+Off5.Visible = false
+On5.Visible = true
+end)
 
 ------------------Scripting
 Title.Text = "Home Work Lifting Simulator"
@@ -375,43 +385,44 @@ end
 end)
 
 TextLabel5.Text = "Auto Kill All"
-
-local player = game.Players.LocalPlayer
-local auto5Running = false
-
-Off5.MouseButton1Click:Connect(function()
-    if auto5Running then return end
-    Off5.Visible = false
-    On5.Visible = true
-    auto5Running = true
-    getgenv().auto5 = true
-    task.spawn(function()
-        while auto5Running and getgenv().auto5 do
-            local character = player.Character
-            local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-            local bat = character and character:FindFirstChild("Bat")
-            if not bat and humanoid then
-                bat = player.Backpack:FindFirstChild("Bat")
-                if bat then
-                    humanoid:EquipTool(bat)
-                end
-            end
-            if character then
-                bat = character:FindFirstChild("Bat")
-                if bat then
-                    bat:Activate()
-                end
-            end
-            task.wait(0.2)
-        end
-        auto5Running = false
-    end)
+Off5.MouseButton1Click:connect(function()
+wait()
+getgenv().auto5 = true
+while getgenv().auto5 == true do
+spawn(function()
+game:GetService("Players").LocalPlayer.Character.Stomp.E:FireServer()
 end)
-On5.MouseButton1Click:Connect(function()
-    getgenv().auto5 = false
-    auto5Running = false
-    On5.Visible = false
-    Off5.Visible = true
+wait(0.1)
+end
+end)
+
+Off5.MouseButton1Click:connect(function()
+wait(1)
+getgenv().auto5 = true
+while getgenv().auto5 == true do
+game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stomp"))
+local children = game.Workspace:GetChildren()
+	for _, child in pairs(children) do
+  		for _, child in pairs(child:GetChildren()) do
+       		table.insert(children, child)
+  		 end
+  		 if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
+         	local myRoot = game.Players.LocalPlayer.Character.HumanoidRootPart
+            child.CFrame = myRoot.CFrame * CFrame.new(0, 0, -3)
+		end
+  	end
+print()
+game:GetService("RunService").Heartbeat:wait();
+end;
+end)
+
+Off5.MouseButton1Click:connect(function()
+wait(2)
+getgenv().auto5 = true
+while getgenv().auto5 == true do
+print()
+game:GetService("RunService").Heartbeat:wait();
+end;
 end)
 
 local ScreenGui1 = Instance.new("ScreenGui")
