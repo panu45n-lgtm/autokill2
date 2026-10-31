@@ -321,10 +321,8 @@ Off5.Visible = false
 On5.Visible = true
 end)
 
-
 ------------------Scripting
 Title.Text = "Home Work Lifting Simulator"
-
 
 TextLabel1.Text = "Auto Equip Weight"
 Off1.MouseButton1Click:connect(function()
@@ -338,7 +336,6 @@ wait(0.1)
 end
 end)
 
-
 TextLabel2.Text = "Auto Weight"
 Off2.MouseButton1Click:connect(function()
 wait()
@@ -350,7 +347,6 @@ end)
 task.wait()
 end
 end)
-
 
 TextLabel3.Text = "Auto Rebirth"
 Off3.MouseButton1Click:connect(function()
@@ -369,17 +365,7 @@ TextLabel4.Text = "Auto Kill Evil Teacher"
 Off4.MouseButton1Click:connect(function()
 wait()
 getgenv().auto4 = true
-while getgenv(	for _, child in pairs(child:GetChildren()) do
-       		table.insert(children, child)
-  		 end
-  		 if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
-         	child.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-		end
-  	end
-print()
-game:GetService("RunService").Heartbeat:wait();
-end;
-end)).auto4 == true do
+while getgenv().auto4 == true do
 spawn(function()
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Fight"))
 local old = game.Players.LocalPlayer.Character:getChildren()
@@ -397,7 +383,6 @@ end)
 wait(3)
 end
 end)
-
 
 TextLabel5.Text = "Auto Kill All"
 Off5.MouseButton1Click:connect(function()
@@ -418,7 +403,17 @@ while getgenv().auto5 == true do
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stomp"))
 local children = game.Workspace:GetChildren()
 	for _, child in pairs(children) do
-  	
+  		for _, child in pairs(child:GetChildren()) do
+       		table.insert(children, child)
+  		 end
+  		 if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
+         	child.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+		end
+  	end
+print()
+game:GetService("RunService").Heartbeat:wait();
+end;
+end)
 
 Off5.MouseButton1Click:connect(function()
 wait(2)
@@ -433,8 +428,6 @@ local ScreenGui1 = Instance.new("ScreenGui")
 local Frame1 = Instance.new("Frame")
 local TextButtonx = Instance.new("TextButton")
 local TextButton = Instance.new("TextButton")
-
-
 
 ScreenGui1.Parent = game.CoreGui
 
