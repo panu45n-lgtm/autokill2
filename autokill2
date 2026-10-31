@@ -296,12 +296,6 @@ On5.Text = "✅"
 On5.TextScaled = true
 On5.Visible = false
 
-On5.MouseButton1Click:connect(function()
-    On5.Visible = false
-    Off5.Visible = true
-    getgenv().auto5 = false
-end)
-
 Off5.Parent = Frame
 Off5.BackgroundColor3 = Color3.new(0,0,0)
 Off5.BackgroundTransparency = 0
@@ -316,10 +310,6 @@ Off5.Text = ""
 Off5.TextScaled = true
 Off5.TextSize = 8
 Off5.TextWrapped = true
-Off5.MouseButton1Click:connect(function()
-Off5.Visible = false
-On5.Visible = true
-end)
 
 ------------------Scripting
 Title.Text = "Home Work Lifting Simulator"
@@ -386,14 +376,15 @@ end)
 
 TextLabel5.Text = "Auto Kill All"
 
--- Auto Kill All: single loop
 local auto5Running = false
 
+-- เปิด Auto Kill All
 Off5.MouseButton1Click:Connect(function()
+    if auto5Running then return end
+
     Off5.Visible = false
     On5.Visible = true
 
-    if auto5Running then return end
     auto5Running = true
     getgenv().auto5 = true
 
@@ -401,12 +392,10 @@ Off5.MouseButton1Click:Connect(function()
         while auto5Running and getgenv().auto5 do
             local character = game.Players.LocalPlayer.Character
             local stomp = character and character:FindFirstChild("Stomp")
+            local event = stomp and stomp:FindFirstChild("E")
 
-            if stomp then
-                local event = stomp:FindFirstChild("E")
-                if event then
-                    event:FireServer()
-                end
+            if event then
+                event:FireServer()
             end
 
             task.wait(0.1)
@@ -416,9 +405,11 @@ Off5.MouseButton1Click:Connect(function()
     end)
 end)
 
+-- ปิด Auto Kill All
 On5.MouseButton1Click:Connect(function()
     getgenv().auto5 = false
     auto5Running = false
+
     On5.Visible = false
     Off5.Visible = true
 end)
