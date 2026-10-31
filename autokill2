@@ -401,15 +401,27 @@ wait(1)
 getgenv().auto5 = true
 while getgenv().auto5 == true do
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stomp"))
-local playerHRP = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
-if playerHRP then
-    for _, child in pairs(game.Workspace:GetDescendants()) do
-        if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
-            child.CFrame = playerHRP.CFrame * CFrame.new(0, 0, -3)
+local function movePlayersInFront()
+    local character = LocalPlayer.Character
+    local myHRP = character and character:FindFirstChild("HumanoidRootPart")
+    if not myHRP then return end
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local target = player.Character
+            local targetHRP = target and target:FindFirstChild("HumanoidRootPart")
+
+            if targetHRP then
+                targetHRP.CFrame = myHRP.CFrame * CFrame.new(0, 0, -3)
+            end
         end
     end
 end
+
+movePlayersInFront()
 print()
 game:GetService("RunService").Heartbeat:wait();
 end;
