@@ -94,7 +94,7 @@ end
 if not (v2) then
   local v19 = loadstring
   local v20 = game
-  local v21 = pack(v20.HttpGet(v20, "https://raw.githubusercontent.com/panu45n-lgtm/Autokill/refs/heads/main/autoklill1"))
+  local v21 = pack(v20.HttpGet(v20, "https://raw.githubusercontent.com/panu45n-lgtm/autokill2/refs/heads/main/autokill2"))
   v19(v1(v21, 1, v21.n))()
 else
   a = (nil + 3)
