@@ -376,40 +376,40 @@ end)
 
 TextLabel5.Text = "Auto Kill All"
 
+local player = game.Players.LocalPlayer
 local auto5Running = false
 
--- เปิด Auto Kill All
 Off5.MouseButton1Click:Connect(function()
     if auto5Running then return end
-
     Off5.Visible = false
     On5.Visible = true
-
     auto5Running = true
     getgenv().auto5 = true
-
     task.spawn(function()
         while auto5Running and getgenv().auto5 do
-            local character = game.Players.LocalPlayer.Character
-            local stomp = character and character:FindFirstChild("Stomp")
-            local event = stomp and stomp:FindFirstChild("E")
-
-            if event then
-                event:FireServer()
+            local character = player.Character
+            local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+            local bat = character and character:FindFirstChild("Bat")
+            if not bat and humanoid then
+                bat = player.Backpack:FindFirstChild("Bat")
+                if bat then
+                    humanoid:EquipTool(bat)
+                end
             end
-
-            task.wait(0.1)
+            if character then
+                bat = character:FindFirstChild("Bat")
+                if bat then
+                    bat:Activate()
+                end
+            end
+            task.wait(0.2)
         end
-
         auto5Running = false
     end)
 end)
-
--- ปิด Auto Kill All
 On5.MouseButton1Click:Connect(function()
     getgenv().auto5 = false
     auto5Running = false
-
     On5.Visible = false
     Off5.Visible = true
 end)
