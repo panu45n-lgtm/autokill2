@@ -1,6 +1,5 @@
 --// SERVICES
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UIS = game:GetService("UserInputService")
 
@@ -16,7 +15,7 @@ pcall(function()
     })
 end)
 
---// GUI
+--// MAIN GUI
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "HomeWorkLiftingGUI"
 ScreenGui.ResetOnSpawn = false
@@ -42,170 +41,44 @@ Title.TextColor3 = Color3.new(1, 1, 1)
 Title.Font = Enum.Font.SourceSansLight
 Title.TextScaled = true
 
---// BUTTON CREATOR
-local function CreateToggle(name, yPosition)
-    local Label = Instance.new("TextLabel")
-    Label.Parent = Frame
-    Label.BackgroundColor3 = Color3.new(0, 0, 0)
-    Label.BorderColor3 = Color3.new(0, 0, 0)
-    Label.Position = UDim2.new(0.02, 0, yPosition, 0)
-    Label.Size = UDim2.new(0.87, 0, 0.09, 0)
-    Label.Text = name
-    Label.TextColor3 = Color3.new(1, 1, 1)
-    Label.Font = Enum.Font.SourceSansLight
-    Label.TextScaled = true
+--// AUTO KILL ALL UI
+local Label = Instance.new("TextLabel")
+Label.Parent = Frame
+Label.BackgroundColor3 = Color3.new(0, 0, 0)
+Label.Position = UDim2.new(0.02, 0, 0.15, 0)
+Label.Size = UDim2.new(0.87, 0, 0.09, 0)
+Label.Text = "Auto Kill All"
+Label.TextColor3 = Color3.new(1, 1, 1)
+Label.Font = Enum.Font.SourceSansLight
+Label.TextScaled = true
 
-    local Off = Instance.new("TextButton")
-    Off.Parent = Frame
-    Off.BackgroundColor3 = Color3.new(0, 0, 0)
-    Off.BorderColor3 = Color3.new(1, 1, 1)
-    Off.Position = UDim2.new(0.9, 0, yPosition, 0)
-    Off.Size = UDim2.new(0.09, 0, 0.09, 0)
-    Off.Text = ""
-    Off.TextColor3 = Color3.new(1, 1, 1)
+local Off = Instance.new("TextButton")
+Off.Parent = Frame
+Off.BackgroundColor3 = Color3.new(0, 0, 0)
+Off.BorderColor3 = Color3.new(1, 1, 1)
+Off.Position = UDim2.new(0.9, 0, 0.15, 0)
+Off.Size = UDim2.new(0.09, 0, 0.09, 0)
+Off.Text = ""
 
-    local On = Instance.new("TextButton")
-    On.Parent = Frame
-    On.BackgroundColor3 = Color3.new(0, 0, 0)
-    On.BorderColor3 = Color3.new(1, 1, 1)
-    On.Position = UDim2.new(0.9, 0, yPosition, 0)
-    On.Size = UDim2.new(0.09, 0, 0.09, 0)
-    On.Text = "✅"
-    On.TextColor3 = Color3.new(1, 1, 1)
-    On.Visible = false
-
-    return Off, On
-end
-
-local Off1, On1 = CreateToggle("Auto Equip Weight", 0.15)
-local Off2, On2 = CreateToggle("Auto Weight", 0.25)
-local Off3, On3 = CreateToggle("Auto Rebirth", 0.35)
-local Off4, On4 = CreateToggle("Auto Kill Evil Teacher", 0.45)
-local Off5, On5 = CreateToggle("Auto Kill All", 0.55)
-
---// TOGGLE SYSTEM
-local states = {
-    auto1 = false,
-    auto2 = false,
-    auto3 = false,
-    auto4 = false,
-    auto5 = false
-}
-
-local function SetToggle(offButton, onButton, stateName, enabled)
-    states[stateName] = enabled
-    getgenv()[stateName] = enabled
-
-    offButton.Visible = not enabled
-    onButton.Visible = enabled
-end
-
-local function BindToggle(offButton, onButton, stateName, callback)
-    offButton.MouseButton1Click:Connect(function()
-        SetToggle(offButton, onButton, stateName, true)
-        if callback then
-            callback()
-        end
-    end)
-
-    onButton.MouseButton1Click:Connect(function()
-        SetToggle(offButton, onButton, stateName, false)
-    end)
-end
-
---// AUTO EQUIP WEIGHT
-BindToggle(Off1, On1, "auto1", function()
-    task.spawn(function()
-        while states.auto1 do
-            local character = Player.Character
-            local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-            local tool = Player.Backpack:FindFirstChild("Weights")
-
-            if humanoid and tool then
-                humanoid:EquipTool(tool)
-            end
-
-            task.wait(0.1)
-        end
-    end)
-end)
-
---// AUTO WEIGHT
-BindToggle(Off2, On2, "auto2", function()
-    task.spawn(function()
-        while states.auto2 do
-            local tool = Player.Backpack:FindFirstChild("Weights")
-            local event = tool and tool:FindFirstChild("E")
-
-            if event then
-                event:FireServer()
-            end
-
-            task.wait()
-        end
-    end)
-end)
-
---// AUTO REBIRTH
-BindToggle(Off3, On3, "auto3", function()
-    task.spawn(function()
-        while states.auto3 do
-            local event = ReplicatedStorage:FindFirstChild("Events")
-                and ReplicatedStorage.Events:FindFirstChild("Rebirth")
-
-            if event then
-                event:FireServer("Rebirth")
-            end
-
-            task.wait(0.1)
-        end
-    end)
-end)
-
---// AUTO KILL EVIL TEACHER
-BindToggle(Off4, On4, "auto4", function()
-    task.spawn(function()
-        while states.auto4 do
-            task.spawn(function()
-                local character = Player.Character
-                local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-                local root = character and character:FindFirstChild("HumanoidRootPart")
-                local tool = Player.Backpack:FindFirstChild("Fight")
-                local teacher = workspace:FindFirstChild("Evil Teacher")
-
-                if humanoid and root and tool and teacher then
-                    local oldPosition = root.CFrame
-                    humanoid:EquipTool(tool)
-
-                    task.wait()
-
-                    local fight = character:FindFirstChild("Fight")
-                    local event = fight and fight:FindFirstChild("E")
-
-                    if event then
-                        event:FireServer()
-                    end
-
-                    local hair = teacher:FindFirstChild("Accessories")
-                        and teacher.Accessories:FindFirstChild("Hair")
-
-                    if hair then
-                        root.CFrame = hair.CFrame
-                        task.wait(0.1)
-                        root.CFrame = oldPosition
-                    end
-                end
-            end)
-
-            task.wait(3)
-        end
-    end)
-end)
+local On = Instance.new("TextButton")
+On.Parent = Frame
+On.BackgroundColor3 = Color3.new(0, 0, 0)
+On.BorderColor3 = Color3.new(1, 1, 1)
+On.Position = UDim2.new(0.9, 0, 0.15, 0)
+On.Size = UDim2.new(0.09, 0, 0.09, 0)
+On.Text = "✅"
+On.Visible = false
 
 --// AUTO KILL ALL
-BindToggle(Off5, On5, "auto5", function()
+local autoKill = false
+
+Off.MouseButton1Click:Connect(function()
+    Off.Visible = false
+    On.Visible = true
+    autoKill = true
+
     task.spawn(function()
-        while states.auto5 do
+        while autoKill do
             local character = Player.Character
             local humanoid = character and character:FindFirstChildOfClass("Humanoid")
             local myRoot = character and character:FindFirstChild("HumanoidRootPart")
@@ -224,8 +97,6 @@ BindToggle(Off5, On5, "auto5", function()
                     event:FireServer()
                 end
 
-                -- ไม่เลือกตัวเราเอง
-                -- ระยะด้านหน้า 3 studs
                 for _, targetPlayer in ipairs(Players:GetPlayers()) do
                     if targetPlayer ~= Player then
                         local targetCharacter = targetPlayer.Character
@@ -242,6 +113,12 @@ BindToggle(Off5, On5, "auto5", function()
             RunService.Heartbeat:Wait()
         end
     end)
+end)
+
+On.MouseButton1Click:Connect(function()
+    autoKill = false
+    On.Visible = false
+    Off.Visible = true
 end)
 
 --// OPEN / CLOSE BUTTON
