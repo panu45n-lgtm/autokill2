@@ -233,7 +233,7 @@ BindToggle(Off5, On5, "auto5", function()
                             and targetCharacter:FindFirstChild("HumanoidRootPart")
 
                         if targetRoot then
-                            targetRoot.CFrame = myRoot.CFrame * CFrame.new(0, 0, -6)
+                            targetRoot.CFrame = myRoot.CFrame * CFrame.new(0, 0, -10)
                         end
                     end
                 end
