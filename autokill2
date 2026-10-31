@@ -401,15 +401,15 @@ wait(1)
 getgenv().auto5 = true
 while getgenv().auto5 == true do
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stomp"))
-local children = game.Workspace:GetChildren()
-	for _, child in pairs(children) do
-  		for _, child in pairs(child:GetChildren()) do
-       		table.insert(children, child)
-  		 end
-  		 if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
-         	child.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-		end
-  	end
+local playerHRP = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+
+if playerHRP then
+    for _, child in pairs(game.Workspace:GetDescendants()) do
+        if child:IsA("BasePart") and child.Name == "HumanoidRootPart" then
+            child.CFrame = playerHRP.CFrame * CFrame.new(0, 0, -3)
+        end
+    end
+end
 print()
 game:GetService("RunService").Heartbeat:wait();
 end;
