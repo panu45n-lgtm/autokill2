@@ -385,41 +385,44 @@ end
 end)
 
 TextLabel5.Text = "Auto Kill All"
-Off5.MouseButton1Click:connect(function()
-wait()
-getgenv().auto5 = true
-while getgenv().auto5 == true do
-spawn(function()
-game:GetService("Players").LocalPlayer.Character.Stomp.E:FireServer()
-end)
-wait(0.1)
-end
-end)
 
-Off5.MouseButton1Click:connect(function()
-wait(1)
-getgenv().auto5 = true
-while getgenv().auto5 == true do
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Stomp"))
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+-- Auto Kill All: single loop
+local auto5Running = false
 
-local function movePlayersInFront()
-    local character = LocalPlayer.Character
-    local myHRP = character and character:FindFirstChild("HumanoidRootPart")
-    if not myHRP then return end
+Off5.MouseButton1Click:Connect(function()
+    Off5.Visible = false
+    On5.Visible = true
 
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            local target = player.Character
-            local targetHRP = target and target:FindFirstChild("HumanoidRootPart")
+    if auto5Running then return end
+    auto5Running = true
+    getgenv().auto5 = true
 
-            if targetHRP then
-                targetHRP.CFrame = myHRP.CFrame * CFrame.new(0, 0, -3)
+    task.spawn(function()
+        while auto5Running and getgenv().auto5 do
+            local character = game.Players.LocalPlayer.Character
+            local stomp = character and character:FindFirstChild("Stomp")
+
+            if stomp then
+                local event = stomp:FindFirstChild("E")
+                if event then
+                    event:FireServer()
+                end
             end
+
+            task.wait(0.1)
         end
-    end
-end
+
+        auto5Running = false
+    end)
+end)
+
+On5.MouseButton1Click:Connect(function()
+    getgenv().auto5 = false
+    auto5Running = false
+    On5.Visible = false
+    Off5.Visible = true
+end)
+
 
 movePlayersInFront()
 print()
