@@ -98,18 +98,16 @@ Off.MouseButton1Click:Connect(function()
                 end
 
                 for _, targetPlayer in ipairs(Players:GetPlayers()) do
-                    if targetPlayer ~= Player then
-                        local targetCharacter = targetPlayer.Character
-                        local targetHead = targetCharacter
-                            and targetCharacter:FindFirstChild("Head")
+    if targetPlayer ~= Player then
+        local targetCharacter = targetPlayer.Character
+        local targetHead = targetCharacter
+            and targetCharacter:FindFirstChild("Head")
 
-                        if targetHead then
-                            targetHead.CFrame = myRoot.CFrame * CFrame.new(0,3.5,-3.5)
-                        end
-                    end
-                end
-            end
-
+        if targetHead then
+            targetHead.CFrame = myRoot.CFrame * CFrame.new(0, 0, -2)
+        end
+    end
+end
             RunService.Heartbeat:Wait()
         end
     end)
