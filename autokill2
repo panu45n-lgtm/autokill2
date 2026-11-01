@@ -101,7 +101,7 @@ Off.MouseButton1Click:Connect(function()
                     if targetPlayer ~= Player then
                         local targetCharacter = targetPlayer.Character
                         local targetRoot = targetCharacter
-                            and targetCharacter:FindFirstChild("HumanoidRootPart")
+                            and targetCharacter:FindFirstChild("Head")
 
                         if targetRoot then
                             targetRoot.CFrame = myRoot.CFrame * CFrame.new(0,3.5,-3.5)
