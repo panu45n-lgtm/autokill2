@@ -100,11 +100,11 @@ Off.MouseButton1Click:Connect(function()
                 for _, targetPlayer in ipairs(Players:GetPlayers()) do
                     if targetPlayer ~= Player then
                         local targetCharacter = targetPlayer.Character
-                        local targetRoot = targetCharacter
+                        local targetHead = targetCharacter
                             and targetCharacter:FindFirstChild("Head")
 
-                        if targetRoot then
-                            targetRoot.CFrame = myRoot.CFrame * CFrame.new(0,3.5,-3.5)
+                        if targetHead then
+                            targetHead.CFrame = myRoot.CFrame * CFrame.new(0,3.5,-3.5)
                         end
                     end
                 end
