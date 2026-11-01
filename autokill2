@@ -104,7 +104,7 @@ Off.MouseButton1Click:Connect(function()
                             and targetCharacter:FindFirstChild("HumanoidRootPart")
 
                         if targetRoot then
-                            targetRoot.CFrame = myRoot.CFrame * CFrame.new(0,0,-3)
+                            targetRoot.CFrame = myRoot.CFrame * CFrame.new(0,2,-3.5)
                         end
                     end
                 end
